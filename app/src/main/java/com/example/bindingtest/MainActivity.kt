@@ -1,6 +1,7 @@
 package com.example.bindingtest
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
-    val TAG:String=getString(R.string.TAG_Main)
+
     val secretNumber=SecretNumber()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         //取得binging物件 getLayoutInflater()是每個Activity都有的方法 目的是為了產生物件
         setContentView(binding!!.root)
         //getRoot() 得到物件的view
-        Log.d(TAG,"Screct:"+secretNumber.secret)
+        Log.d("MainActivity","Screct:"+secretNumber.secret)
     }
 
     @SuppressLint("SetTextI18n")
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         val n:Int=editTextNumber.text.toString().toInt()
         //        Toast.makeText(this,"Numer:$n",Toast.LENGTH_SHORT).show()
         println("Number:$n")
-        Log.d(TAG,"Number:$n")
+        Log.d("MainActivity","Number:$n")
         val diff:Int=secretNumber.varlidate(n)
         var message=getString(R.string.bingo)
         if(diff<0){
@@ -52,7 +53,14 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
                 .setTitle(getString(R.string.message))
                 .setMessage(message)
-                .setPositiveButton(getString(R.string.ok),null)
+                .setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                    if (diff == 0) {
+                        val intent = Intent(this, Record::class.java)
+                        //載生出新Activity之前,定義COUNTER標籤的intent物件，裡面附有count值，可知道答題幾次
+                        intent.putExtra("COUNTER",secretNumber.count)
+                        startActivity(intent)
+                    }
+                }
                 .show()
     }
 }
