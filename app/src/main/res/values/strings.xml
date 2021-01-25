@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BindingTest</string>
+    <string name="bingo">Bingo</string>
+    <string name="bigger">Bigger</string>
+    <string name="smaller">Smaller</string>
+    <string name="message">Message</string>
+    <string name="ok">ok</string>
+    <string name="TAG_Main">MainActivity</string>
+</resources>
